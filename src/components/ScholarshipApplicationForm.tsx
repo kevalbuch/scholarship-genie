@@ -3,9 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Upload, Loader2 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ApplicationFormData {
   firstName: string;
@@ -23,7 +25,23 @@ export function ScholarshipApplicationForm({ onSubmit, isSubmitting }: {
   isSubmitting: boolean;
 }) {
   const [files, setFiles] = useState<File[]>([]);
+  const { user, profile } = useAuth();
   const form = useForm<ApplicationFormData>();
+
+  useEffect(() => {
+    if (profile) {
+      form.reset({
+        firstName: profile.first_name || "",
+        lastName: profile.last_name || "",
+        email: profile.email || user?.email || "",
+        phone: profile.phone || "",
+        currentSchool: profile.current_school || "",
+        gpa: profile.gpa || "",
+        graduationYear: profile.graduation_year || "",
+        essay: ""
+      });
+    }
+  }, [profile, user]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -31,7 +49,27 @@ export function ScholarshipApplicationForm({ onSubmit, isSubmitting }: {
     }
   };
 
-  const handleSubmit = (data: ApplicationFormData) => {
+  const handleSubmit = async (data: ApplicationFormData) => {
+    // Update profile with the latest data
+    if (user) {
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          first_name: data.firstName,
+          last_name: data.lastName,
+          email: data.email,
+          phone: data.phone,
+          current_school: data.currentSchool,
+          gpa: data.gpa,
+          graduation_year: data.graduationYear,
+        });
+
+      if (error) {
+        console.error('Error updating profile:', error);
+      }
+    }
+
     onSubmit(data);
   };
 
