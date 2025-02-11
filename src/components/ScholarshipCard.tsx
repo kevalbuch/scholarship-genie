@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import { toast } from "sonner";
+import { ScholarshipApplicationForm } from "./ScholarshipApplicationForm";
 
 interface ScholarshipCardProps {
   title: string;
@@ -28,13 +29,15 @@ export function ScholarshipCard({
   description,
 }: ScholarshipCardProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleApply = async () => {
+  const handleApply = async (data: any) => {
     setIsSubmitting(true);
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       toast.success("Application submitted successfully!");
+      setIsOpen(false);
     } catch (error) {
       toast.error("Failed to submit application. Please try again.");
     } finally {
@@ -62,45 +65,31 @@ export function ScholarshipCard({
           <Calendar className="h-4 w-4 mr-1" />
           Deadline: {deadline}
         </div>
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
             <Button variant="outline" className="hover:bg-primary hover:text-white transition-all">
               Apply Now
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Apply for {title}</DialogTitle>
               <DialogDescription>
                 Submit your application to {organization}
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="space-y-4">
-                <p className="text-sm">
-                  Scholarship Amount: ${amount}
-                </p>
-                <p className="text-sm">
-                  Application Deadline: {deadline}
-                </p>
-                <p className="text-sm">
-                  {description}
-                </p>
+            <div className="py-4">
+              <div className="space-y-4 mb-6">
+                <div className="flex justify-between items-center p-4 bg-muted rounded-lg">
+                  <div>
+                    <p className="font-medium">Scholarship Details</p>
+                    <p className="text-sm text-muted-foreground mt-1">Amount: ${amount}</p>
+                    <p className="text-sm text-muted-foreground">Deadline: {deadline}</p>
+                  </div>
+                </div>
+                <p className="text-sm">{description}</p>
               </div>
-              <div className="flex justify-end gap-4">
-                <Button
-                  variant="outline"
-                  onClick={() => toast.info("Application saved as draft")}
-                >
-                  Save as Draft
-                </Button>
-                <Button
-                  onClick={handleApply}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Submitting..." : "Submit Application"}
-                </Button>
-              </div>
+              <ScholarshipApplicationForm onSubmit={handleApply} isSubmitting={isSubmitting} />
             </div>
           </DialogContent>
         </Dialog>
