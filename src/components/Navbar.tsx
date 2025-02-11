@@ -1,24 +1,25 @@
 
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function Navbar() {
   return (
     <nav className="fixed top-0 w-full z-50 glass-card px-6 py-4">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500">
+          <Link to="/" className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500">
             VidyaRatan
-          </span>
+          </Link>
         </div>
         
         <div className="hidden md:flex items-center space-x-8">
-          <a href="#" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link to="/browse-scholarships" className="text-sm font-medium hover:text-primary transition-colors">
             Browse Scholarships
-          </a>
-          <a href="#" className="text-sm font-medium hover:text-primary transition-colors">
+          </Link>
+          <Link to="/how-it-works" className="text-sm font-medium hover:text-primary transition-colors">
             How It Works
-          </a>
+          </Link>
           <a href="#" className="text-sm font-medium hover:text-primary transition-colors">
             Success Stories
           </a>
