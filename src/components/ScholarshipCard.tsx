@@ -47,8 +47,24 @@ export function ScholarshipCard({
   const handleApply = async (data: any) => {
     setIsSubmitting(true);
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const { error } = await supabase
+        .from('scholarship_applications')
+        .insert({
+          user_id: user?.id,
+          scholarship_title: title,
+          scholarship_organization: organization,
+          first_name: data.firstName,
+          last_name: data.lastName,
+          email: data.email,
+          phone: data.phone,
+          current_school: data.currentSchool,
+          gpa: data.gpa,
+          graduation_year: data.graduationYear,
+          essay: data.essay
+        });
+
+      if (error) throw error;
+      
       toast.success("Application submitted successfully!");
       setIsOpen(false);
     } catch (error) {

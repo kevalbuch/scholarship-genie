@@ -51,25 +51,24 @@ const careerGuides = [
   { country: "Australia", universities: 80, scholarships: 400 },
 ];
 
-// Add testimonials data
 const testimonials = [
   {
     name: "Priya Sharma",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80",
     role: "Medical Student",
     testimonial: "Thanks to VidyaRatan, I secured a full scholarship for my medical studies. The platform made it incredibly easy to find and apply for relevant opportunities.",
     university: "AIIMS Delhi"
   },
   {
     name: "Alex Thompson",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80",
     role: "Engineering Student",
     testimonial: "I found my dream scholarship through this platform. The application process was smooth, and the resources provided were invaluable.",
     university: "MIT"
   },
   {
     name: "Sarah Chen",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80",
     role: "Arts Major",
     testimonial: "The personalized scholarship recommendations helped me find opportunities I wouldn't have discovered otherwise. Truly grateful!",
     university: "Royal College of Art"

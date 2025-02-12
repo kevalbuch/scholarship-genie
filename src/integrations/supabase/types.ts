@@ -48,6 +48,57 @@ export type Database = {
         }
         Relationships: []
       }
+      scholarship_applications: {
+        Row: {
+          created_at: string
+          current_school: string | null
+          email: string
+          essay: string | null
+          first_name: string
+          gpa: string | null
+          graduation_year: string | null
+          id: string
+          last_name: string
+          phone: string | null
+          scholarship_organization: string
+          scholarship_title: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          current_school?: string | null
+          email: string
+          essay?: string | null
+          first_name: string
+          gpa?: string | null
+          graduation_year?: string | null
+          id?: string
+          last_name: string
+          phone?: string | null
+          scholarship_organization: string
+          scholarship_title: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          current_school?: string | null
+          email?: string
+          essay?: string | null
+          first_name?: string
+          gpa?: string | null
+          graduation_year?: string | null
+          id?: string
+          last_name?: string
+          phone?: string | null
+          scholarship_organization?: string
+          scholarship_title?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
