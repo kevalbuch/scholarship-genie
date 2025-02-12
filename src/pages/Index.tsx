@@ -1,9 +1,8 @@
-
 import { Navbar } from "@/components/Navbar";
 import { SearchBar } from "@/components/SearchBar";
 import { ScholarshipCard } from "@/components/ScholarshipCard";
 import { Button } from "@/components/ui/button";
-import { Clock, Trophy, Users, MessageSquare, Calendar, Globe, BookOpen, GraduationCap } from "lucide-react";
+import { Clock, Trophy, Users, MessageSquare, Calendar, Globe, BookOpen, GraduationCap, DollarSign } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const featuredScholarships = [
@@ -52,6 +51,31 @@ const careerGuides = [
   { country: "Australia", universities: 80, scholarships: 400 },
 ];
 
+// Add testimonials data
+const testimonials = [
+  {
+    name: "Priya Sharma",
+    image: "/placeholder.svg",
+    role: "Medical Student",
+    testimonial: "Thanks to VidyaRatan, I secured a full scholarship for my medical studies. The platform made it incredibly easy to find and apply for relevant opportunities.",
+    university: "AIIMS Delhi"
+  },
+  {
+    name: "Alex Thompson",
+    image: "/placeholder.svg",
+    role: "Engineering Student",
+    testimonial: "I found my dream scholarship through this platform. The application process was smooth, and the resources provided were invaluable.",
+    university: "MIT"
+  },
+  {
+    name: "Sarah Chen",
+    image: "/placeholder.svg",
+    role: "Arts Major",
+    testimonial: "The personalized scholarship recommendations helped me find opportunities I wouldn't have discovered otherwise. Truly grateful!",
+    university: "Royal College of Art"
+  }
+];
+
 function CountdownTimer({ daysLeft }: { daysLeft: number }) {
   const getStatusColor = (days: number) => {
     if (days > 30) return "text-green-500";
@@ -87,22 +111,64 @@ export default function Index() {
           <SearchBar />
         </div>
 
-        {/* Featured Scholarships with Countdown */}
+        {/* Featured Scholarships with Countdown - Updated Layout */}
         <section className="mt-20">
           <h2 className="text-3xl font-bold mb-8 text-center">Featured Scholarships</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredScholarships.map((scholarship, index) => (
-              <div key={index} className="relative">
-                <div className="absolute top-4 right-4 z-10">
-                  <CountdownTimer daysLeft={scholarship.daysLeft} />
+              <div key={index} className="glass-card rounded-xl p-8 hover:shadow-xl transition-all">
+                <div className="flex flex-col h-full">
+                  <div className="mb-6">
+                    <h3 className="text-2xl font-semibold mb-3">{scholarship.title}</h3>
+                    <p className="text-sm text-muted-foreground mb-4">{scholarship.organization}</p>
+                    <p className="text-base mb-4">{scholarship.description}</p>
+                  </div>
+                  
+                  <div className="mt-auto space-y-4">
+                    <div className="flex items-center justify-between p-4 bg-primary/5 rounded-lg">
+                      <div className="flex items-center">
+                        <DollarSign className="h-5 w-5 text-primary mr-2" />
+                        <span className="text-lg font-semibold">${scholarship.amount}</span>
+                      </div>
+                      <CountdownTimer daysLeft={scholarship.daysLeft} />
+                    </div>
+                    
+                    <Button 
+                      variant="outline" 
+                      className="w-full hover:bg-primary hover:text-white transition-all"
+                    >
+                      Apply Now
+                    </Button>
+                  </div>
                 </div>
-                <ScholarshipCard {...scholarship} />
               </div>
             ))}
           </div>
         </section>
 
-        {/* Top Contributors Section */}
+        {/* New Testimonials Section */}
+        <section className="mt-20">
+          <h2 className="text-3xl font-bold mb-8 text-center">Success Stories</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="glass-card rounded-xl p-8 text-center">
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full overflow-hidden">
+                  <img 
+                    src={testimonial.image} 
+                    alt={testimonial.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{testimonial.name}</h3>
+                <p className="text-primary font-medium mb-1">{testimonial.role}</p>
+                <p className="text-sm text-muted-foreground mb-4">{testimonial.university}</p>
+                <p className="text-sm italic">"{testimonial.testimonial}"</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Rest of the sections */}
         <section className="mt-20">
           <h2 className="text-3xl font-bold mb-8 text-center">Community Leaders</h2>
           <div className="grid md:grid-cols-3 gap-8">
