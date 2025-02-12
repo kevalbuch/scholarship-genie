@@ -12,6 +12,8 @@ import {
 import { useState } from "react";
 import { toast } from "sonner";
 import { ScholarshipApplicationForm } from "./ScholarshipApplicationForm";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface ScholarshipCardProps {
   title: string;
@@ -30,6 +32,17 @@ export function ScholarshipCard({
 }: ScholarshipCardProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleApplyClick = () => {
+    if (!user) {
+      toast.error("Please sign in to apply for scholarships");
+      navigate("/auth");
+      return;
+    }
+    setIsOpen(true);
+  };
 
   const handleApply = async (data: any) => {
     setIsSubmitting(true);
@@ -66,11 +79,13 @@ export function ScholarshipCard({
           Deadline: {deadline}
         </div>
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline" className="hover:bg-primary hover:text-white transition-all">
-              Apply Now
-            </Button>
-          </DialogTrigger>
+          <Button 
+            variant="outline" 
+            className="hover:bg-primary hover:text-white transition-all"
+            onClick={handleApplyClick}
+          >
+            Apply Now
+          </Button>
           <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Apply for {title}</DialogTitle>
