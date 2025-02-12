@@ -2,6 +2,9 @@
 import { Navbar } from "@/components/Navbar";
 import { SearchBar } from "@/components/SearchBar";
 import { ScholarshipCard } from "@/components/ScholarshipCard";
+import { Button } from "@/components/ui/button";
+import { Clock, Trophy, Users, MessageSquare, Calendar, Globe, BookOpen, GraduationCap } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const featuredScholarships = [
   {
@@ -10,6 +13,7 @@ const featuredScholarships = [
     deadline: "Aug 30, 2024",
     organization: "International Education Fund",
     description: "Full scholarship for outstanding students pursuing undergraduate studies in any field.",
+    daysLeft: 35,
   },
   {
     title: "Tech Innovation Grant",
@@ -17,6 +21,7 @@ const featuredScholarships = [
     deadline: "Sep 15, 2024",
     organization: "Future Technologies Foundation",
     description: "Supporting next-generation leaders in computer science and engineering.",
+    daysLeft: 5,
   },
   {
     title: "Arts & Humanities Fellowship",
@@ -24,8 +29,45 @@ const featuredScholarships = [
     deadline: "Oct 1, 2024",
     organization: "Creative Minds Institute",
     description: "For students excelling in literature, fine arts, or cultural studies.",
+    daysLeft: 15,
   },
 ];
+
+const topContributors = [
+  { name: "Dr. Sarah Chen", role: "Education Mentor", contributions: 156 },
+  { name: "Raj Patel", role: "Scholarship Advisor", contributions: 143 },
+  { name: "Maria Garcia", role: "Community Leader", contributions: 128 },
+];
+
+const upcomingWebinars = [
+  { title: "How to Write a Winning Scholarship Essay", date: "Aug 25, 2024" },
+  { title: "International Scholarship Opportunities", date: "Aug 28, 2024" },
+  { title: "Financial Aid Workshop", date: "Sep 1, 2024" },
+];
+
+const careerGuides = [
+  { country: "USA", universities: 500, scholarships: 1200 },
+  { country: "UK", universities: 150, scholarships: 800 },
+  { country: "Canada", universities: 100, scholarships: 600 },
+  { country: "Australia", universities: 80, scholarships: 400 },
+];
+
+function CountdownTimer({ daysLeft }: { daysLeft: number }) {
+  const getStatusColor = (days: number) => {
+    if (days > 30) return "text-green-500";
+    if (days > 7) return "text-yellow-500";
+    return "text-red-500";
+  };
+
+  return (
+    <div className={`flex items-center ${getStatusColor(daysLeft)}`}>
+      <Clock className="h-4 w-4 mr-1" />
+      <span className="text-sm font-medium">
+        {daysLeft} {daysLeft === 1 ? "day" : "days"} left
+      </span>
+    </div>
+  );
+}
 
 export default function Index() {
   return (
@@ -45,12 +87,78 @@ export default function Index() {
           <SearchBar />
         </div>
 
-        {/* Featured Scholarships */}
+        {/* Featured Scholarships with Countdown */}
         <section className="mt-20">
           <h2 className="text-3xl font-bold mb-8 text-center">Featured Scholarships</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredScholarships.map((scholarship, index) => (
-              <ScholarshipCard key={index} {...scholarship} />
+              <div key={index} className="relative">
+                <div className="absolute top-4 right-4 z-10">
+                  <CountdownTimer daysLeft={scholarship.daysLeft} />
+                </div>
+                <ScholarshipCard {...scholarship} />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Top Contributors Section */}
+        <section className="mt-20">
+          <h2 className="text-3xl font-bold mb-8 text-center">Community Leaders</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {topContributors.map((contributor, index) => (
+              <div key={index} className="glass-card rounded-xl p-6 text-center">
+                <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center">
+                  <Users className="h-10 w-10 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{contributor.name}</h3>
+                <p className="text-sm text-muted-foreground mb-2">{contributor.role}</p>
+                <div className="flex items-center justify-center text-primary">
+                  <Trophy className="h-4 w-4 mr-1" />
+                  <span>{contributor.contributions} contributions</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Upcoming Webinars */}
+        <section className="mt-20">
+          <h2 className="text-3xl font-bold mb-8 text-center">Upcoming Webinars</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {upcomingWebinars.map((webinar, index) => (
+              <div key={index} className="glass-card rounded-xl p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h3 className="font-semibold mb-2">{webinar.title}</h3>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      {webinar.date}
+                    </div>
+                  </div>
+                </div>
+                <Button variant="outline" className="w-full">Register Now</Button>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Study Abroad Guide */}
+        <section className="mt-20">
+          <h2 className="text-3xl font-bold mb-8 text-center">Study Abroad Guide</h2>
+          <div className="grid md:grid-cols-4 gap-6">
+            {careerGuides.map((guide, index) => (
+              <div key={index} className="glass-card rounded-xl p-6 text-center">
+                <Globe className="h-8 w-8 mx-auto mb-4 text-primary" />
+                <h3 className="text-xl font-semibold mb-2">{guide.country}</h3>
+                <div className="space-y-2 text-sm text-muted-foreground">
+                  <p>{guide.universities} Universities</p>
+                  <p>{guide.scholarships} Scholarships</p>
+                </div>
+                <Button variant="ghost" className="mt-4 w-full">
+                  Learn More
+                </Button>
+              </div>
             ))}
           </div>
         </section>
@@ -73,6 +181,51 @@ export default function Index() {
           </div>
         </section>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-white border-t">
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="font-bold text-lg mb-4">About Us</h3>
+              <p className="text-muted-foreground text-sm">
+                Helping students achieve their educational dreams through scholarships
+                and financial aid opportunities.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-bold text-lg mb-4">Quick Links</h3>
+              <ul className="space-y-2 text-sm">
+                <li><Link to="/browse-scholarships" className="text-muted-foreground hover:text-primary">Browse Scholarships</Link></li>
+                <li><Link to="/how-it-works" className="text-muted-foreground hover:text-primary">How It Works</Link></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary">Success Stories</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary">FAQs</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold text-lg mb-4">Resources</h3>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-muted-foreground hover:text-primary">Scholarship Guide</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary">Application Tips</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary">Document Checklist</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary">Essay Writing Help</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold text-lg mb-4">Contact</h3>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="text-muted-foreground hover:text-primary">Contact Support</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary">Feedback</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary">Report an Issue</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-primary">Partner with Us</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
+            <p>&copy; 2024 VidyaRatan. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
