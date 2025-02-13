@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { ScholarshipApplicationForm } from "./ScholarshipApplicationForm";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ScholarshipCardProps {
   title: string;
