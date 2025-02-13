@@ -23,9 +23,9 @@ export function Navbar() {
           <Link to="/how-it-works" className="text-sm font-medium hover:text-primary transition-colors">
             How It Works
           </Link>
-          <a href="#" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link to="/success-stories" className="text-sm font-medium hover:text-primary transition-colors">
             Success Stories
-          </a>
+          </Link>
         </div>
 
         <div className="flex items-center space-x-4">

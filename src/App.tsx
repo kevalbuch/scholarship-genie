@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,10 +8,11 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import BrowseScholarships from "./pages/BrowseScholarships";
 import HowItWorks from "./pages/HowItWorks";
+import SuccessStories from "./pages/SuccessStories";
 import NotFound from "./pages/NotFound";
 import { useAuth } from "./contexts/AuthContext";
 import { Loader2 } from "lucide-react";
-import { useState, useEffect } from "react"; // Added this import
+import { useState, useEffect } from "react";
 
 const queryClient = new QueryClient();
 
@@ -30,7 +30,6 @@ function LoadingSpinner() {
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   
-  // Only show loading state for a maximum of 2 seconds
   const [showLoading, setShowLoading] = useState(true);
   
   useEffect(() => {
@@ -51,7 +50,6 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
 function AuthRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   
-  // Only show loading state for a maximum of 2 seconds
   const [showLoading, setShowLoading] = useState(true);
   
   useEffect(() => {
@@ -75,6 +73,7 @@ const AppRoutes = () => (
     <Route path="/" element={<Index />} />
     <Route path="/browse-scholarships" element={<PrivateRoute><BrowseScholarships /></PrivateRoute>} />
     <Route path="/how-it-works" element={<PrivateRoute><HowItWorks /></PrivateRoute>} />
+    <Route path="/success-stories" element={<SuccessStories />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
