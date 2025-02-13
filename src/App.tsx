@@ -29,7 +29,18 @@ function LoadingSpinner() {
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   
-  if (loading) {
+  // Only show loading state for a maximum of 2 seconds
+  const [showLoading, setShowLoading] = useState(true);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
+  if (loading && showLoading) {
     return <LoadingSpinner />;
   }
   
@@ -39,7 +50,18 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
 function AuthRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   
-  if (loading) {
+  // Only show loading state for a maximum of 2 seconds
+  const [showLoading, setShowLoading] = useState(true);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
+  if (loading && showLoading) {
     return <LoadingSpinner />;
   }
   
