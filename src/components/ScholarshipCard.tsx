@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Calendar, DollarSign } from "lucide-react";
+import { Calendar, DollarSign, Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -33,25 +33,30 @@ export function ScholarshipCard({
 }: ScholarshipCardProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const handleApplyClick = () => {
+  const handleApplyClick = async () => {
+    setIsLoading(true);
     if (!user) {
       toast.error("Please sign in to apply for scholarships");
       navigate("/auth");
       return;
     }
+    setIsLoading(false);
     setIsOpen(true);
   };
 
   const handleApply = async (data: any) => {
+    if (!user) return;
+    
     setIsSubmitting(true);
     try {
       const { error } = await supabase
         .from('scholarship_applications')
         .insert({
-          user_id: user?.id,
+          user_id: user.id,
           scholarship_title: title,
           scholarship_organization: organization,
           first_name: data.firstName,
@@ -100,8 +105,16 @@ export function ScholarshipCard({
             variant="outline" 
             className="hover:bg-primary hover:text-white transition-all"
             onClick={handleApplyClick}
+            disabled={isLoading}
           >
-            Apply Now
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Loading...
+              </>
+            ) : (
+              "Apply Now"
+            )}
           </Button>
           <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
             <DialogHeader>
