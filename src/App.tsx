@@ -12,6 +12,7 @@ import HowItWorks from "./pages/HowItWorks";
 import NotFound from "./pages/NotFound";
 import { useAuth } from "./contexts/AuthContext";
 import { Loader2 } from "lucide-react";
+import { useState, useEffect } from "react"; // Added this import
 
 const queryClient = new QueryClient();
 
