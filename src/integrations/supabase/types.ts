@@ -99,6 +99,51 @@ export type Database = {
         }
         Relationships: []
       }
+      scholarships: {
+        Row: {
+          amount: number
+          country: string | null
+          created_at: string
+          deadline: string
+          description: string
+          education_level: string | null
+          field_of_study: string | null
+          id: string
+          organization: string
+          requirements: string | null
+          status: string
+          title: string
+        }
+        Insert: {
+          amount: number
+          country?: string | null
+          created_at?: string
+          deadline: string
+          description: string
+          education_level?: string | null
+          field_of_study?: string | null
+          id?: string
+          organization: string
+          requirements?: string | null
+          status?: string
+          title: string
+        }
+        Update: {
+          amount?: number
+          country?: string | null
+          created_at?: string
+          deadline?: string
+          description?: string
+          education_level?: string | null
+          field_of_study?: string | null
+          id?: string
+          organization?: string
+          requirements?: string | null
+          status?: string
+          title?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
